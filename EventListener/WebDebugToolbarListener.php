@@ -117,13 +117,13 @@ class WebDebugToolbarListener implements EventSubscriberInterface
         $pos = $posrFunction($content, '</body>');
 
         if (false !== $pos) {
-            $toolbar = "\n".str_replace("\n", '', $this->twig->render(
+            $toolbar = PHP_EOL.str_replace(PHP_EOL, '', $this->twig->render(
                 '@WebProfiler/Profiler/toolbar_js.html.twig',
                 array(
                     'position' => $this->position,
                     'token' => $response->headers->get('X-Debug-Token'),
                 )
-            ))."\n";
+            )).PHP_EOL;
             $content = $substrFunction($content, 0, $pos).$toolbar.$substrFunction($content, $pos);
             $response->setContent($content);
         }
