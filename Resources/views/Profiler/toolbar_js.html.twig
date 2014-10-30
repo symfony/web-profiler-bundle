@@ -21,9 +21,23 @@
                 }
 
                 if (Sfjs.getPreference('toolbar/displayState') == 'none') {
-                    document.getElementById('sfToolbarMainContent-{{ token }}').style.display = 'none';
-                    document.getElementById('sfToolbarClearer-{{ token }}').style.display = 'none';
-                    document.getElementById('sfMiniToolbar-{{ token }}').style.display = 'block';
+                    var sfToolbarMainContent =  document.getElementById('sfToolbarMainContent-{{ token }}');
+                    if (typeof(sfToolbarMainContent) !== 'undefined' && sfToolbarMainContent !== null)
+                    {
+                      document.getElementById('sfToolbarMainContent-{{ token }}').style.display = 'none';
+                    }
+                    
+                    var sfToolbarClearer =  document.getElementById('sfToolbarClearer-{{ token }}');
+                    if (typeof(sfToolbarClearer) !== 'undefined' && sfToolbarClearer !== null)
+                    {
+                      document.getElementById('sfToolbarClearer-{{ token }}').style.display = 'none';
+                    }
+                    
+                    var elementMiniTool =  document.getElementById('sfMiniToolbar-{{ token }}');
+                    if (typeof(elementMiniTool) !== 'undefined' && elementMiniTool !== null)
+                    {
+                      document.getElementById('sfMiniToolbar-{{ token }}').style.display = 'block';
+                    }
                 } else {
                     document.getElementById('sfToolbarMainContent-{{ token }}').style.display = 'block';
                     document.getElementById('sfToolbarClearer-{{ token }}').style.display = 'block';
