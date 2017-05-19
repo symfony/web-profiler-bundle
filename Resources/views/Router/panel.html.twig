@@ -8,7 +8,7 @@
 
     {% if request.route %}
         <div class="metric">
-            <span class="value">{{ traces|length }}</span>
+            <span class="value">{{ traces|length - 1 }}</span>
             <span class="label">Tested routes before match</span>
         </div>
     {% endif %}
