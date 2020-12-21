@@ -105,7 +105,7 @@
         <div class="card-block">
             <div class="sf-tabs sf-tabs-sm">
                 {% for event in events.events(transport) %}
-                    {% set message = event.message %}
+                    {% set message = event.message.getOriginalMessage() %}
                     <div class="tab">
                         <h3 class="tab-title">Message #{{ loop.index }} <small>({{ event.isQueued() ? 'queued' : 'sent' }})</small></h3>
                         <div class="tab-content">
@@ -113,6 +113,10 @@
                                 <div class="card-block">
                                     <span class="label">Subject</span>
                                     <h2 class="m-t-10">{{ message.getSubject() ?? '(empty)' }}</h2>
+                                </div>
+                                <div class="card-block">
+                                    <span class="label">Message ID</span>
+                                    <h2 class="m-t-10">{{ event.message.getMessageId() ?? '(empty)' }}</h2>
                                 </div>
                                 {% if message.getNotification is defined %}
                                     <div class="card-block">
@@ -131,7 +135,7 @@
                                             {% if message.getNotification is defined %}
                                                 <div class="tab">
                                                     <h3 class="tab-title">Notification</h3>
-                                                    {% set notification = event.message.getNotification() %}
+                                                    {% set notification = event.message.getOriginalMessage().getNotification() %}
                                                     <div class="tab-content">
                                                         <pre class="prewrap" style="max-height: 600px">
                                                             {{- 'Subject: ' ~ notification.getSubject() }}<br/>
