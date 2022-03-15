@@ -130,10 +130,17 @@
 
                                                 <span class="label">To</span>
                                                 <pre class="prewrap">{{ (message.headers.get('to').bodyAsString() ?? '(empty)')|replace({'To:': ''}) }}</pre>
+                                                
+                                                {% if event.envelope.recipients|length > 0 %}
+                                                    <span class="label">Recipients</span>
+                                                    {% for recipient in event.envelope.recipients %}
+                                                        <pre class="prewrap">{{ recipient.address }}</pre>
+                                                    {% endfor %}
+                                                {% endif %}
                                             </div>
                                             <div class="col">
                                                 <span class="label">Headers</span>
-                                                <pre class="prewrap">{% for header in message.headers.all|filter(header => (header.name ?? '') not in ['Subject', 'From', 'To']) %}
+                                                <pre class="prewrap">{% for header in message.headers.all|filter(header => (header.name ?? '') not in ['subject', 'from', 'to']) %}
                                                     {{- header.toString }}
                                                 {%~ endfor %}</pre>
                                             </div>
