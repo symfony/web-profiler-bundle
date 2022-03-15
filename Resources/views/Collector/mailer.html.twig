@@ -140,7 +140,7 @@
                                             </div>
                                             <div class="col">
                                                 <span class="label">Headers</span>
-                                                <pre class="prewrap">{% for header in message.headers.all|filter(header => (header.name ?? '') not in ['subject', 'from', 'to']) %}
+                                                <pre class="prewrap">{% for header in message.headers.all|filter(header => (header.name ?? '') not in ['Subject', 'From', 'To']) %}
                                                     {{- header.toString }}
                                                 {%~ endfor %}</pre>
                                             </div>
