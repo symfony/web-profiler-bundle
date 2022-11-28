@@ -41,11 +41,11 @@
 
 {% block panel %}
     {% set events = collector.events %}
-    <h2>Emails</h2>
+    <h2>E-mails</h2>
 
     {% if not events.messages|length %}
         <div class="empty empty-panel">
-            <p>No emails were sent.</p>
+            <p>No e-mails were sent.</p>
         </div>
     {% else %}
         <div class="metrics">
