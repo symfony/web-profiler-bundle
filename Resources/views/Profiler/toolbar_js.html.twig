@@ -1,3 +1,6 @@
+<style{% if csp_style_nonce %} nonce="{{ csp_style_nonce }}"{% endif %}>
+    {{ include('@WebProfiler/Profiler/toolbar.css.twig') }}
+</style>
 <div id="sfwdt{{ token }}" class="sf-toolbar sf-display-none" role="region" aria-label="Symfony Web Debug Toolbar">
     {{ include('@WebProfiler/Profiler/toolbar.html.twig', {
         templates: {
@@ -11,9 +14,6 @@
 
 {{ include('@WebProfiler/Profiler/base_js.html.twig') }}
 
-<style{% if csp_style_nonce %} nonce="{{ csp_style_nonce }}"{% endif %}>
-    {{ include('@WebProfiler/Profiler/toolbar.css.twig') }}
-</style>
 <script{% if csp_script_nonce %} nonce="{{ csp_script_nonce }}"{% endif %}>/*<![CDATA[*/
     (function () {
         Sfjs.loadToolbar('{{ token }}');
