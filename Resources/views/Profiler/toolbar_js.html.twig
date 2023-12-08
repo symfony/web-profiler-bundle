@@ -77,7 +77,34 @@
                 });
             }
 
+            const setCookie = function (name, value, days) {
+                var exp = new Date();
+                exp.setTime(exp.getTime() + (days * 24 * 60 * 60 * 1000));
+                document.cookie = name + '=' + value + '; expires=' + exp.toGMTString() + '; path=/; SameSite=Lax';
+            };
+
+            const getCookie = function (name) {
+                var prefix = name + '=';
+                var cookieStartIndex = document.cookie.indexOf(prefix);
+                var cookieEndIndex;
+
+                if (cookieStartIndex == -1) {
+                    return null;
+                }
+
+                cookieEndIndex = document.cookie.indexOf(';', cookieStartIndex + prefix.length);
+                if (cookieEndIndex == -1) {
+                    cookieEndIndex = document.cookie.length;
+                }
+
+                return unescape(document.cookie.substring(cookieStartIndex + prefix.length, cookieEndIndex));
+            };
+
             var request = function(url, onSuccess, onError, payload, options, tries) {
+                if (xdebugCookieValue !== null) {
+                    setCookie('XDEBUG_SESSION', xdebugCookieValue, 365);
+                }
+
                 var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
                 options = options || {};
                 options.retry = options.retry || false;
@@ -112,6 +139,11 @@
 
                 if (options.onSend) {
                     options.onSend(tries);
+                }
+
+                var xdebugCookieValue = getCookie('XDEBUG_SESSION');
+                if (xdebugCookieValue !== null) {
+                    setCookie('XDEBUG_SESSION', null, -1);
                 }
 
                 xhr.send(payload || '');
