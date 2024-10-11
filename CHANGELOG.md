@@ -6,6 +6,7 @@ CHANGELOG
 
  * Add error indicator to profiler list view for profiles with errors
  * Add cURL copy paste button in the Request/Response tab
+ * Add support for streamed responses in the debug toolbar
 
 8.0
 ---

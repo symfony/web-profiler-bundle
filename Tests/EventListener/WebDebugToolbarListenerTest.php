@@ -30,7 +30,7 @@ use Twig\Environment;
 class WebDebugToolbarListenerTest extends TestCase
 {
     #[DataProvider('getInjectToolbarTests')]
-    public function testInjectToolbar($content, $expected)
+    public function testInjectToolbar(string $content, string $expected)
     {
         $listener = new WebDebugToolbarListener($this->getTwigMock());
         $m = new \ReflectionMethod($listener, 'injectToolbar');
@@ -60,7 +60,7 @@ class WebDebugToolbarListenerTest extends TestCase
     }
 
     #[DataProvider('provideRedirects')]
-    public function testHtmlRedirectionIsIntercepted($statusCode)
+    public function testHtmlRedirectionIsIntercepted(int $statusCode)
     {
         $response = new Response('Some content', $statusCode);
         $response->headers->set('Location', 'https://example.com/');
@@ -76,7 +76,7 @@ class WebDebugToolbarListenerTest extends TestCase
 
     public function testNonHtmlRedirectionIsNotIntercepted()
     {
-        $response = new Response('Some content', '301');
+        $response = new Response('Some content', 301);
         $response->headers->set('Location', 'https://example.com/');
         $response->headers->set('X-Debug-Token', 'xxxxxxxx');
         $event = new ResponseEvent($this->createStub(KernelInterface::class), new Request([], [], ['_format' => 'json']), HttpKernelInterface::MAIN_REQUEST, $response);
@@ -131,7 +131,7 @@ class WebDebugToolbarListenerTest extends TestCase
 
     #[DataProvider('provideRedirects')]
     #[Depends('testToolbarIsInjected')]
-    public function testToolbarIsNotInjectedOnRedirection($statusCode)
+    public function testToolbarIsNotInjectedOnRedirection(int $statusCode)
     {
         $response = new Response('<html><head></head><body></body></html>', $statusCode);
         $response->headers->set('Location', 'https://example.com/');
@@ -485,7 +485,7 @@ class WebDebugToolbarListenerTest extends TestCase
         $response->send(false);
     }
 
-    protected function getTwigMock($render = 'WDT')
+    protected function getTwigMock(string $render = 'WDT')
     {
         $templating = $this->createStub(Environment::class);
         $templating
