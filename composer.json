@@ -17,7 +17,8 @@
     ],
     "require": {
         "php": ">=8.2",
-        "symfony/config": "^6.4|^7.0",
+        "composer-runtime-api": ">=2.1",
+        "symfony/config": "^7.3",
         "symfony/framework-bundle": "^6.4|^7.0",
         "symfony/http-kernel": "^6.4|^7.0",
         "symfony/routing": "^6.4|^7.0",
