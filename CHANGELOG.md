@@ -4,6 +4,7 @@ CHANGELOG
 7.3
 ---
 
+ * Add `profiler.php` and `wdt.php` routing configuration files (use them instead of their XML equivalent)
  * Add `ajax_replace` option for replacing toolbar on AJAX requests
 
 7.2

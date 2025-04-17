@@ -43,8 +43,8 @@ class WebProfilerBundleKernel extends Kernel
 
     protected function configureRoutes(RoutingConfigurator $routes): void
     {
-        $routes->import(__DIR__.'/../../Resources/config/routing/profiler.xml')->prefix('/_profiler');
-        $routes->import(__DIR__.'/../../Resources/config/routing/wdt.xml')->prefix('/_wdt');
+        $routes->import(__DIR__.'/../../Resources/config/routing/profiler.php')->prefix('/_profiler');
+        $routes->import(__DIR__.'/../../Resources/config/routing/wdt.php')->prefix('/_wdt');
         $routes->add('_', '/')->controller('kernel::homepageController');
     }
 
