@@ -16,7 +16,7 @@ return function (RoutingConfigurator $routes): void {
     foreach (debug_backtrace(\DEBUG_BACKTRACE_PROVIDE_OBJECT) as $trace) {
         if (isset($trace['object']) && $trace['object'] instanceof XmlFileLoader && 'doImport' === $trace['function']) {
             if (__DIR__ === dirname(realpath($trace['args'][3]))) {
-                trigger_deprecation('symfony/routing', '7.3', 'The "xdt.xml" routing configuration file is deprecated, import "xdt.php" instead.');
+                trigger_deprecation('symfony/routing', '7.3', 'The "wdt.xml" routing configuration file is deprecated, import "wdt.php" instead.');
 
                 break;
             }
