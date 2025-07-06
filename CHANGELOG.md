@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+8.0
+---
+
+ * Remove `profiler.xml` and `wdt.xml` routing configuration files (use their PHP equivalent instead)
+
 7.3
 ---
 
