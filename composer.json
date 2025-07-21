@@ -22,8 +22,7 @@
         "symfony/framework-bundle": "^7.4|^8.0",
         "symfony/http-kernel": "^7.4|^8.0",
         "symfony/routing": "^7.4|^8.0",
-        "symfony/twig-bundle": "^7.4|^8.0",
-        "twig/twig": "^3.12"
+        "symfony/twig-bundle": "^7.4|^8.0"
     },
     "require-dev": {
         "symfony/browser-kit": "^7.4|^8.0",
