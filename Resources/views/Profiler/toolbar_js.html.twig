@@ -415,11 +415,7 @@
                 renderAjaxRequests: renderAjaxRequests,
 
                 getSfwdt: function(token) {
-                    if (!this.sfwdt) {
-                        this.sfwdt = document.getElementById('sfwdt' + token);
-                    }
-
-                    return this.sfwdt;
+                    return document.getElementById('sfwdt' + token);
                 },
 
                 load: function(selector, url, onSuccess, onError, options) {
