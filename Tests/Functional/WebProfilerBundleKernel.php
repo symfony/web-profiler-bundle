@@ -51,7 +51,6 @@ class WebProfilerBundleKernel extends Kernel
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
     {
         $config = [
-            'annotations' => false,
             'http_method_override' => false,
             'php_errors' => ['log' => true],
             'secret' => 'foo-secret',
