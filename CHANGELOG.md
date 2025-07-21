@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+7.4
+---
+
+ * Add support for the `QUERY` HTTP method in the profiler
+
 7.3
 ---
 
