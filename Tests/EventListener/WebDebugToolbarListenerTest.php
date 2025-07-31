@@ -11,6 +11,8 @@
 
 namespace Symfony\Bundle\WebProfilerBundle\Tests\EventListener;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\WebProfilerBundle\Csp\ContentSecurityPolicyHandler;
 use Symfony\Bundle\WebProfilerBundle\EventListener\WebDebugToolbarListener;
@@ -25,9 +27,7 @@ use Twig\Environment;
 
 class WebDebugToolbarListenerTest extends TestCase
 {
-    /**
-     * @dataProvider getInjectToolbarTests
-     */
+    #[DataProvider('getInjectToolbarTests')]
     public function testInjectToolbar($content, $expected)
     {
         $listener = new WebDebugToolbarListener($this->getTwigMock());
@@ -57,9 +57,7 @@ class WebDebugToolbarListenerTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provideRedirects
-     */
+    #[DataProvider('provideRedirects')]
     public function testHtmlRedirectionIsIntercepted($statusCode)
     {
         $response = new Response('Some content', $statusCode);
@@ -101,9 +99,7 @@ class WebDebugToolbarListenerTest extends TestCase
         $this->assertEquals("<html><head></head><body>\nWDT\n</body></html>", $response->getContent());
     }
 
-    /**
-     * @depends testToolbarIsInjected
-     */
+    #[Depends('testToolbarIsInjected')]
     public function testToolbarIsNotInjectedOnNonHtmlContentType()
     {
         $response = new Response('<html><head></head><body></body></html>');
@@ -117,9 +113,7 @@ class WebDebugToolbarListenerTest extends TestCase
         $this->assertEquals('<html><head></head><body></body></html>', $response->getContent());
     }
 
-    /**
-     * @depends testToolbarIsInjected
-     */
+    #[Depends('testToolbarIsInjected')]
     public function testToolbarIsNotInjectedOnContentDispositionAttachment()
     {
         $response = new Response('<html><head></head><body></body></html>');
@@ -133,11 +127,8 @@ class WebDebugToolbarListenerTest extends TestCase
         $this->assertEquals('<html><head></head><body></body></html>', $response->getContent());
     }
 
-    /**
-     * @depends testToolbarIsInjected
-     *
-     * @dataProvider provideRedirects
-     */
+    #[DataProvider('provideRedirects')]
+    #[Depends('testToolbarIsInjected')]
     public function testToolbarIsNotInjectedOnRedirection($statusCode)
     {
         $response = new Response('<html><head></head><body></body></html>', $statusCode);
@@ -159,9 +150,7 @@ class WebDebugToolbarListenerTest extends TestCase
         ];
     }
 
-    /**
-     * @depends testToolbarIsInjected
-     */
+    #[Depends('testToolbarIsInjected')]
     public function testToolbarIsNotInjectedWhenThereIsNoNoXDebugTokenResponseHeader()
     {
         $response = new Response('<html><head></head><body></body></html>');
@@ -174,9 +163,7 @@ class WebDebugToolbarListenerTest extends TestCase
         $this->assertEquals('<html><head></head><body></body></html>', $response->getContent());
     }
 
-    /**
-     * @depends testToolbarIsInjected
-     */
+    #[Depends('testToolbarIsInjected')]
     public function testToolbarIsNotInjectedWhenOnSubRequest()
     {
         $response = new Response('<html><head></head><body></body></html>');
@@ -190,9 +177,7 @@ class WebDebugToolbarListenerTest extends TestCase
         $this->assertEquals('<html><head></head><body></body></html>', $response->getContent());
     }
 
-    /**
-     * @depends testToolbarIsInjected
-     */
+    #[Depends('testToolbarIsInjected')]
     public function testToolbarIsNotInjectedOnIncompleteHtmlResponses()
     {
         $response = new Response('<div>Some content</div>');
@@ -206,9 +191,7 @@ class WebDebugToolbarListenerTest extends TestCase
         $this->assertEquals('<div>Some content</div>', $response->getContent());
     }
 
-    /**
-     * @depends testToolbarIsInjected
-     */
+    #[Depends('testToolbarIsInjected')]
     public function testToolbarIsNotInjectedOnXmlHttpRequests()
     {
         $response = new Response('<html><head></head><body></body></html>');
@@ -225,9 +208,7 @@ class WebDebugToolbarListenerTest extends TestCase
         $this->assertEquals('<html><head></head><body></body></html>', $response->getContent());
     }
 
-    /**
-     * @depends testToolbarIsInjected
-     */
+    #[Depends('testToolbarIsInjected')]
     public function testToolbarIsNotInjectedOnNonHtmlRequests()
     {
         $response = new Response('<html><head></head><body></body></html>');
