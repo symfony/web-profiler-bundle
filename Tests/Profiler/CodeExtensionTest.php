@@ -11,6 +11,7 @@
 
 namespace Symfony\Bundle\WebProfilerBundle\Tests\Profiler;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\WebProfilerBundle\Profiler\CodeExtension;
 use Symfony\Component\ErrorHandler\ErrorRenderer\FileLinkFormatter;
@@ -129,9 +130,7 @@ HTML;
         $this->assertEquals($expected, $this->render($template));
     }
 
-    /**
-     * @dataProvider fileExcerptIntegrationProvider
-     */
+    #[DataProvider('fileExcerptIntegrationProvider')]
     public function testFileExcerptIntegration(string $expected, array $data)
     {
         $template = <<<'TWIG'
