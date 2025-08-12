@@ -512,10 +512,15 @@
                         'sfwdt' + token,
                         '{{ url("_wdt", { "token": "xxxxxx" })|escape('js') }}'.replace(/xxxxxx/, newToken),
                         function(xhr, el) {
+                            var toolbarContent = document.getElementById('sfToolbarMainContent-' + newToken);
+
                             /* Do nothing in the edge case where the toolbar has already been replaced with a new one */
-                            if (!document.getElementById('sfToolbarMainContent-' + newToken)) {
+                            if (!toolbarContent) {
                                 return;
                             }
+
+                            /* Replace the ID, it has to match the new token */
+                            toolbarContent.parentElement.id = 'sfwdt' + newToken;
 
                             /* Evaluate in global scope scripts embedded inside the toolbar */
                             var i, scripts = [].slice.call(el.querySelectorAll('script'));
