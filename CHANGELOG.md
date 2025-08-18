@@ -6,6 +6,11 @@ CHANGELOG
 
  * Remove `profiler.xml` and `wdt.xml` routing configuration files (use their PHP equivalent instead)
 
+7.4
+---
+
+ * Add support for the `QUERY` HTTP method in the profiler
+
 7.3
 ---
 
