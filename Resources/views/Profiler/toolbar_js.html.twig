@@ -295,6 +295,51 @@
             };
 
             {% if excluded_ajax_paths is defined %}
+            if (window.EventSource) {
+                var oldEventSource = window.EventSource;
+                window.EventSource = function (url, options) {
+                    var es = new oldEventSource(url, options);
+                    if (!url.match(new RegExp({{ excluded_ajax_paths|json_encode|raw }}))) {
+                        var stackElement = {
+                            error: false,
+                            url: url,
+                            method: 'GET',
+                            type: 'event-stream',
+                            start: new Date()
+                        };
+
+                        var idx = requestStack.push(stackElement) - 1;
+                        startAjaxRequest(idx);
+                        addEventListener(es, 'error', function () {
+                            stackElement.error = true;
+                            finishAjaxRequest(idx);
+                        });
+                        addEventListener(es, 'open', function () {
+                            stackElement.statusCode = 200;
+                            stackElement.toolbarReplaceFinished = false;
+                            stackElement.toolbarReplace = true;
+                        });
+                        addEventListener(es, 'symfony:debug:started', function (event) {
+                            var items = event.data.split('\n');
+                            stackElement.profile = items[0];
+                            stackElement.profilerUrl = items[1];
+                        });
+                        addEventListener(es, 'symfony:debug:error', function (event) {
+                            stackElement.error = true;
+                            stackElement.statusCode = event.data;
+                            finishAjaxRequest(idx);
+                        });
+                        addEventListener(es, 'symfony:debug:finished', function () {
+                            stackElement.duration = new Date() - stackElement.start;
+                            stackElement.toolbarReplaceFinished = false;
+                            stackElement.toolbarReplace = true;
+                            finishAjaxRequest(idx);
+                        });
+                    }
+
+                    return es;
+                };
+            }
             if (window.fetch && window.fetch.polyfill === undefined) {
                 var oldFetch = window.fetch;
                 window.fetch = function () {

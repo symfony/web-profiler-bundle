@@ -10,6 +10,7 @@ CHANGELOG
 ---
 
  * Add support for the `QUERY` HTTP method in the profiler
+ * Add support for Server-Sent Events / `EventSource` requests in the debug toolbar
 
 7.3
 ---
