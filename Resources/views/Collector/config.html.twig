@@ -92,6 +92,13 @@
                 </span>
             </div>
 
+            {% if collector.runner is defined and collector.runner is not null %}
+                <div class="sf-toolbar-info-piece sf-toolbar-info-runner">
+                    <b>Runner</b>
+                    <span>{{ collector.runner|abbr_class }}</span>
+                </div>
+            {% endif %}
+
             {% if 'n/a' is not same as(collector.env) %}
                 <div class="sf-toolbar-info-piece">
                     <b>Environment</b>
@@ -169,6 +176,15 @@
 
 {% block panel %}
     <h2>Symfony Configuration</h2>
+
+    {% if collector.runner is defined and collector.runner is not null %}
+        <div class="metrics">
+            <div class="metric">
+                <span class="value">{{ collector.runner|abbr_class }}</span>
+                <span class="label">Runner</span>
+            </div>
+        </div>
+    {% endif %}
 
     <div class="metrics">
         <div class="metric">
