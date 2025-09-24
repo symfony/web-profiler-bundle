@@ -11,6 +11,7 @@ CHANGELOG
 
  * Add support for the `QUERY` HTTP method in the profiler
  * Add support for Server-Sent Events / `EventSource` requests in the debug toolbar
+ * Add support for displaying the application runner class
 
 7.3
 ---
