@@ -429,7 +429,7 @@
                                 var pending = pendingRequests;
                                 for (var i = 0; i < requestStack.length; i++) {
                                     startAjaxRequest(i);
-                                    if (requestStack[i].duration) {
+                                    if (requestStack[i].duration || requestStack[i].error) {
                                         finishAjaxRequest(i);
                                     }
                                 }
