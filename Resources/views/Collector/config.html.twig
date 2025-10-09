@@ -286,8 +286,14 @@
             </div>
 
             <div class="metric">
+                {% if collector.hasXdebugInfo %}
+                    <a href="{{ path('_profiler_xdebug') }}" title="View xdebug_info()" class="link">
+                {% endif %}
                 <span class="value value-is-icon {{ not collector.hasxdebug ? 'value-shows-no-color' }}" title="{{ collector.xdebugstatus|default('') }}">{{ source('@WebProfiler/Icon/' ~ (collector.hasxdebug ? 'yes' : 'no') ~ '.svg') }}</span>
                 <span class="label">Xdebug</span>
+                {% if collector.hasXdebugInfo %}
+                    </a>
+                {% endif %}
             </div>
         </div>
     </div>
