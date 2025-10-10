@@ -182,7 +182,7 @@ class ProfilerControllerTest extends WebTestCase
         $controller = new ProfilerController($urlGenerator, $profiler, $twig, [], null, __DIR__.'/../..');
 
         try {
-            $response = $controller->openAction(Request::create('/_wdt/open', Request::METHOD_GET, ['file' => $path]));
+            $response = $controller->openAction(Request::create('/_wdt/open', 'GET', ['file' => $path]));
             $this->assertEquals(200, $response->getStatusCode());
             $this->assertTrue($isAllowed);
         } catch (NotFoundHttpException $e) {
