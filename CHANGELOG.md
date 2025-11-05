@@ -5,6 +5,7 @@ CHANGELOG
 ---
 
  * Add error indicator to profiler list view for profiles with errors
+ * Add cURL copy paste button in the Request/Response tab
 
 8.0
 ---

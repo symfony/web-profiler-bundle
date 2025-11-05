@@ -232,6 +232,14 @@
                         <p>No content</p>
                     </div>
                 {% endif %}
+
+                {% if collector.curlCommand != '' %}
+                    <h3>Retry command</h3>
+                    <div class="card">
+                        <button class="btn btn-sm hidden" title="Copy as cURL" data-clipboard-text="{{ collector.curlCommand }}">Copy as cURL</button>
+                        <pre class="break-long-words">{{ collector.curlCommand }}</pre>
+                    </div>
+                {% endif %}
             </div>
         </div>
 
