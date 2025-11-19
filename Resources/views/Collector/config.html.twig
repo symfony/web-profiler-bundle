@@ -92,10 +92,10 @@
                 </span>
             </div>
 
-            {% if collector.runner is defined and collector.runner is not null %}
+            {% if collector.runnerClass is defined and collector.runnerClass is not null %}
                 <div class="sf-toolbar-info-piece sf-toolbar-info-runner">
                     <b>Runner</b>
-                    <span>{{ collector.runner|abbr_class }}</span>
+                    <span>{{ collector.runnerClass|abbr_class }}</span>
                 </div>
             {% endif %}
 
@@ -179,10 +179,10 @@
 {% block panel %}
     <h2>Symfony Configuration</h2>
 
-    {% if collector.runner is defined and collector.runner is not null %}
+    {% if collector.runnerClass is defined and collector.runnerClass is not null %}
         <div class="metrics">
             <div class="metric">
-                <span class="value">{{ collector.runner|abbr_class }}</span>
+                <span class="value">{{ collector.runnerClass|abbr_class }}</span>
                 <span class="label">Runner</span>
             </div>
         </div>
