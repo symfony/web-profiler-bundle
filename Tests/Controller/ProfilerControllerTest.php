@@ -212,7 +212,7 @@ class ProfilerControllerTest extends WebTestCase
         $profiler
             ->expects($this->exactly(2))
             ->method('loadProfile')
-            ->willReturnCallback(fn ($token) => 'found' == $token ? new Profile($token) : null)
+            ->willReturnCallback(static fn ($token) => 'found' == $token ? new Profile($token) : null)
         ;
 
         $controller = $this->createController($profiler, $twig, $withCsp);
@@ -554,7 +554,7 @@ class ProfilerControllerTest extends WebTestCase
             ->with($expectedTemplate);
 
         $this
-            ->createController($profiler, $twig, false, array_map(function (string $collectorName) use ($expectedPanel, $expectedTemplate): array {
+            ->createController($profiler, $twig, false, array_map(static function (string $collectorName) use ($expectedPanel, $expectedTemplate): array {
                 if ($collectorName === $expectedPanel) {
                     return [$expectedPanel, $expectedTemplate];
                 }

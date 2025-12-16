@@ -11,7 +11,7 @@
 
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
-return function (RoutingConfigurator $routes): void {
+return static function (RoutingConfigurator $routes): void {
     $routes->add('_profiler_home', '/')
         ->controller('web_profiler.controller.profiler::homeAction')
     ;
