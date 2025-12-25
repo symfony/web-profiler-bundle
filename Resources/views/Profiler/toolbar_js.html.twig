@@ -299,7 +299,7 @@
                 var oldEventSource = window.EventSource;
                 window.EventSource = function (url, options) {
                     var es = new oldEventSource(url, options);
-                    if (!url.match(new RegExp({{ excluded_ajax_paths|json_encode|raw }}))) {
+                    if (!url.toString().match(new RegExp({{ excluded_ajax_paths|json_encode|raw }}))) {
                         var stackElement = {
                             error: false,
                             url: url,
