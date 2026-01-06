@@ -30,7 +30,7 @@ class TemplateManagerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->profiler = $this->createMock(Profiler::class);
+        $this->profiler = $this->createStub(Profiler::class);
         $twigEnvironment = $this->mockTwigEnvironment();
         $templates = [
             'data_collector.foo' => ['foo', '@Foo/Collector/foo.html.twig'],
@@ -52,7 +52,7 @@ class TemplateManagerTest extends TestCase
      */
     public function testGetNameValidTemplate()
     {
-        $this->profiler->expects($this->any())
+        $this->profiler
             ->method('has')
             ->withAnyParameters()
             ->willReturnCallback($this->profilerHasCallback(...));
@@ -80,15 +80,12 @@ class TemplateManagerTest extends TestCase
 
     protected function mockTwigEnvironment()
     {
-        $this->twigEnvironment = $this->createMock(Environment::class);
-
-        $loader = $this->createMock(LoaderInterface::class);
+        $loader = $this->createStub(LoaderInterface::class);
         $loader
-            ->expects($this->any())
             ->method('exists')
             ->willReturn(true);
 
-        $this->twigEnvironment->expects($this->any())->method('getLoader')->willReturn($loader);
+        $this->twigEnvironment = new Environment($loader);
 
         return $this->twigEnvironment;
     }
