@@ -363,7 +363,7 @@ class WebDebugToolbarListenerTest extends TestCase
     public function testAjaxReplaceHeaderOnDisabledToolbar()
     {
         $response = new Response();
-        $event = new ResponseEvent($this->createMock(Kernel::class), new Request(), HttpKernelInterface::MAIN_REQUEST, $response);
+        $event = new ResponseEvent($this->createStub(KernelInterface::class), new Request(), HttpKernelInterface::MAIN_REQUEST, $response);
 
         $listener = new WebDebugToolbarListener($this->getTwigMock(), false, WebDebugToolbarListener::DISABLED, null, '', null, null, true);
         $listener->onKernelResponse($event);
@@ -374,7 +374,7 @@ class WebDebugToolbarListenerTest extends TestCase
     public function testAjaxReplaceHeaderOnDisabledReplace()
     {
         $response = new Response();
-        $event = new ResponseEvent($this->createMock(Kernel::class), new Request(), HttpKernelInterface::MAIN_REQUEST, $response);
+        $event = new ResponseEvent($this->createStub(KernelInterface::class), new Request(), HttpKernelInterface::MAIN_REQUEST, $response);
 
         $listener = new WebDebugToolbarListener($this->getTwigMock(), false, WebDebugToolbarListener::ENABLED, null, '', null, null);
         $listener->onKernelResponse($event);
@@ -385,7 +385,7 @@ class WebDebugToolbarListenerTest extends TestCase
     public function testAjaxReplaceHeaderOnEnabledAndNonXHR()
     {
         $response = new Response();
-        $event = new ResponseEvent($this->createMock(Kernel::class), new Request(), HttpKernelInterface::MAIN_REQUEST, $response);
+        $event = new ResponseEvent($this->createStub(KernelInterface::class), new Request(), HttpKernelInterface::MAIN_REQUEST, $response);
 
         $listener = new WebDebugToolbarListener($this->getTwigMock(), false, WebDebugToolbarListener::ENABLED, null, '', null, null, true);
         $listener->onKernelResponse($event);
@@ -398,7 +398,7 @@ class WebDebugToolbarListenerTest extends TestCase
         $request = new Request();
         $request->headers->set('X-Requested-With', 'XMLHttpRequest');
         $response = new Response();
-        $event = new ResponseEvent($this->createMock(Kernel::class), $request, HttpKernelInterface::MAIN_REQUEST, $response);
+        $event = new ResponseEvent($this->createStub(KernelInterface::class), $request, HttpKernelInterface::MAIN_REQUEST, $response);
 
         $listener = new WebDebugToolbarListener($this->getTwigMock(), false, WebDebugToolbarListener::ENABLED, null, '', null, null, true);
         $listener->onKernelResponse($event);
@@ -412,7 +412,7 @@ class WebDebugToolbarListenerTest extends TestCase
         $request->headers->set('X-Requested-With', 'XMLHttpRequest');
         $response = new Response();
         $response->headers->set('Symfony-Debug-Toolbar-Replace', '0');
-        $event = new ResponseEvent($this->createMock(Kernel::class), $request, HttpKernelInterface::MAIN_REQUEST, $response);
+        $event = new ResponseEvent($this->createStub(KernelInterface::class), $request, HttpKernelInterface::MAIN_REQUEST, $response);
 
         $listener = new WebDebugToolbarListener($this->getTwigMock(), false, WebDebugToolbarListener::ENABLED, null, '', null, null, true);
         $listener->onKernelResponse($event);
