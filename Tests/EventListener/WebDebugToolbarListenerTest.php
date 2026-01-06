@@ -417,7 +417,7 @@ class WebDebugToolbarListenerTest extends TestCase
                 'X-Debug-Token-Link' => 'test://foobar',
             ],
         );
-        $event = new ResponseEvent($this->createMock(Kernel::class), $request, HttpKernelInterface::MAIN_REQUEST, $response);
+        $event = new ResponseEvent($this->createStub(KernelInterface::class), $request, HttpKernelInterface::MAIN_REQUEST, $response);
 
         $listener = new WebDebugToolbarListener($this->getTwigMock());
 
@@ -457,7 +457,7 @@ class WebDebugToolbarListenerTest extends TestCase
                 'X-Debug-Token-Link' => 'test://foobar',
             ],
         );
-        $event = new ResponseEvent($this->createMock(Kernel::class), $request, HttpKernelInterface::MAIN_REQUEST, $response);
+        $event = new ResponseEvent($this->createStub(KernelInterface::class), $request, HttpKernelInterface::MAIN_REQUEST, $response);
 
         $listener = new WebDebugToolbarListener($this->getTwigMock());
 
