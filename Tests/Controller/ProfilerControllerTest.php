@@ -29,16 +29,16 @@ use Symfony\Component\HttpKernel\Profiler\Profile;
 use Symfony\Component\HttpKernel\Profiler\Profiler;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
+use Twig\Loader\ArrayLoader;
 use Twig\Loader\LoaderInterface;
 
 class ProfilerControllerTest extends WebTestCase
 {
     public function testHomeActionWithProfilerDisabled()
     {
-        $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
-        $twig = $this->createMock(Environment::class);
+        $urlGenerator = $this->createStub(UrlGeneratorInterface::class);
 
-        $controller = new ProfilerController($urlGenerator, null, $twig, []);
+        $controller = new ProfilerController($urlGenerator, null, new Environment(new ArrayLoader()), []);
 
         $this->expectException(NotFoundHttpException::class);
         $this->expectExceptionMessage('The profiler must be enabled.');
@@ -112,10 +112,9 @@ class ProfilerControllerTest extends WebTestCase
 
     public function testToolbarActionWithProfilerDisabled()
     {
-        $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
-        $twig = $this->createMock(Environment::class);
+        $urlGenerator = $this->createStub(UrlGeneratorInterface::class);
 
-        $controller = new ProfilerController($urlGenerator, null, $twig, []);
+        $controller = new ProfilerController($urlGenerator, null, new Environment(new ArrayLoader()), []);
 
         $this->expectException(NotFoundHttpException::class);
         $this->expectExceptionMessage('The profiler must be enabled.');
@@ -126,11 +125,10 @@ class ProfilerControllerTest extends WebTestCase
     #[DataProvider('getEmptyTokenCases')]
     public function testToolbarActionWithEmptyToken($token)
     {
-        $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
-        $twig = $this->createMock(Environment::class);
-        $profiler = $this->createMock(Profiler::class);
+        $urlGenerator = $this->createStub(UrlGeneratorInterface::class);
+        $profiler = $this->createStub(Profiler::class);
 
-        $controller = new ProfilerController($urlGenerator, $profiler, $twig, []);
+        $controller = new ProfilerController($urlGenerator, $profiler, new Environment(new ArrayLoader()), []);
 
         $response = $controller->toolbarAction(Request::create('/_wdt/empty'), $token);
         $this->assertEquals(200, $response->getStatusCode());
@@ -175,9 +173,9 @@ class ProfilerControllerTest extends WebTestCase
     #[DataProvider('getOpenFileCases')]
     public function testOpeningDisallowedPaths($path, $isAllowed)
     {
-        $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
-        $twig = $this->createMock(Environment::class);
-        $profiler = $this->createMock(Profiler::class);
+        $urlGenerator = $this->createStub(UrlGeneratorInterface::class);
+        $twig = $this->createStub(Environment::class);
+        $profiler = $this->createStub(Profiler::class);
 
         $controller = new ProfilerController($urlGenerator, $profiler, $twig, [], null, __DIR__.'/../..');
 
@@ -206,7 +204,7 @@ class ProfilerControllerTest extends WebTestCase
     #[DataProvider('provideCspVariants')]
     public function testReturns404onTokenNotFound($withCsp)
     {
-        $twig = $this->createMock(Environment::class);
+        $twig = $this->createStub(Environment::class);
         $profiler = $this->createMock(Profiler::class);
 
         $profiler
@@ -226,10 +224,9 @@ class ProfilerControllerTest extends WebTestCase
 
     public function testSearchBarActionWithProfilerDisabled()
     {
-        $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
-        $twig = $this->createMock(Environment::class);
+        $urlGenerator = $this->createStub(UrlGeneratorInterface::class);
 
-        $controller = new ProfilerController($urlGenerator, null, $twig, []);
+        $controller = new ProfilerController($urlGenerator, null, new Environment(new ArrayLoader()), []);
 
         $this->expectException(NotFoundHttpException::class);
         $this->expectExceptionMessage('The profiler must be enabled.');
@@ -319,10 +316,9 @@ class ProfilerControllerTest extends WebTestCase
 
     public function testSearchActionWithProfilerDisabled()
     {
-        $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
-        $twig = $this->createMock(Environment::class);
+        $urlGenerator = $this->createStub(UrlGeneratorInterface::class);
 
-        $controller = new ProfilerController($urlGenerator, null, $twig, []);
+        $controller = new ProfilerController($urlGenerator, null, new Environment(new ArrayLoader()), []);
 
         $this->expectException(NotFoundHttpException::class);
         $this->expectExceptionMessage('The profiler must be enabled.');
@@ -359,10 +355,9 @@ class ProfilerControllerTest extends WebTestCase
 
     public function testPhpinfoActionWithProfilerDisabled()
     {
-        $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
-        $twig = $this->createMock(Environment::class);
+        $urlGenerator = $this->createStub(UrlGeneratorInterface::class);
 
-        $controller = new ProfilerController($urlGenerator, null, $twig, []);
+        $controller = new ProfilerController($urlGenerator, null, new Environment(new ArrayLoader()), []);
 
         $this->expectException(NotFoundHttpException::class);
         $this->expectExceptionMessage('The profiler must be enabled.');
@@ -382,10 +377,9 @@ class ProfilerControllerTest extends WebTestCase
 
     public function testFontActionWithProfilerDisabled()
     {
-        $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
-        $twig = $this->createMock(Environment::class);
+        $urlGenerator = $this->createStub(UrlGeneratorInterface::class);
 
-        $controller = new ProfilerController($urlGenerator, null, $twig, []);
+        $controller = new ProfilerController($urlGenerator, null, new Environment(new ArrayLoader()), []);
 
         $this->expectException(NotFoundHttpException::class);
         $this->expectExceptionMessage('The profiler must be enabled.');
@@ -395,11 +389,10 @@ class ProfilerControllerTest extends WebTestCase
 
     public function testFontActionWithInvalidFontName()
     {
-        $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
-        $profiler = $this->createMock(Profiler::class);
-        $twig = $this->createMock(Environment::class);
+        $urlGenerator = $this->createStub(UrlGeneratorInterface::class);
+        $profiler = $this->createStub(Profiler::class);
 
-        $controller = new ProfilerController($urlGenerator, $profiler, $twig, []);
+        $controller = new ProfilerController($urlGenerator, $profiler, new Environment(new ArrayLoader()), []);
 
         $this->expectException(NotFoundHttpException::class);
         $this->expectExceptionMessage('Font file "InvalidFontName.woff2" not found.');
@@ -448,10 +441,10 @@ class ProfilerControllerTest extends WebTestCase
 
     private function createController($profiler, $twig, $withCSP, array $templates = []): ProfilerController
     {
-        $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
+        $urlGenerator = $this->createStub(UrlGeneratorInterface::class);
 
         if ($withCSP) {
-            $nonceGenerator = $this->createMock(NonceGenerator::class);
+            $nonceGenerator = $this->createStub(NonceGenerator::class);
             $nonceGenerator->method('generate')->willReturn('dummy_nonce');
 
             return new ProfilerController($urlGenerator, $profiler, $twig, $templates, new ContentSecurityPolicyHandler($nonceGenerator));
