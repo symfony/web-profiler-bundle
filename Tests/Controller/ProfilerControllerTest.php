@@ -136,10 +136,9 @@ class ProfilerControllerTest extends WebTestCase
 
     public function testToolbarStylesheetActionWithProfilerDisabled()
     {
-        $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
-        $twig = $this->createMock(Environment::class);
+        $urlGenerator = $this->createStub(UrlGeneratorInterface::class);
 
-        $controller = new ProfilerController($urlGenerator, null, $twig, []);
+        $controller = new ProfilerController($urlGenerator, null, new Environment(new ArrayLoader()), []);
 
         $this->expectException(NotFoundHttpException::class);
         $this->expectExceptionMessage('The profiler must be enabled.');
