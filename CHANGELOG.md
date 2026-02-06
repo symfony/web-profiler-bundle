@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+8.1
+---
+
+ * Add error indicator to profiler list view for profiles with errors
+
 8.0
 ---
 
