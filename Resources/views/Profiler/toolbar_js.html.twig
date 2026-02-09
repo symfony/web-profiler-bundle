@@ -298,7 +298,7 @@
                 {% if excluded_ajax_paths is defined %}
                 if (window.EventSource) {
                     var oldEventSource = window.EventSource;
-                    window.EventSource = function (url, options) {
+                    function patchedEventSource(url, options) {
                         var es = new oldEventSource(url, options);
                         if (!url.toString().match(new RegExp({{ excluded_ajax_paths|json_encode|raw }}))) {
                             var stackElement = {
@@ -340,6 +340,8 @@
 
                         return es;
                     };
+                    Object.defineProperties(patchedEventSource, Object.getOwnPropertyDescriptors(oldEventSource));
+                    window.EventSource = patchedEventSource;
                 }
                 if (window.fetch && window.fetch.polyfill === undefined) {
                     var oldFetch = window.fetch;
