@@ -233,7 +233,7 @@
                     </div>
                 {% endif %}
 
-                {% if collector.curlCommand != '' %}
+                {% if collector.curlCommand is defined and collector.curlCommand != '' %}
                     <h3>Retry command</h3>
                     <div class="card">
                         <button class="btn btn-sm hidden" title="Copy as cURL" data-clipboard-text="{{ collector.curlCommand }}">Copy as cURL</button>
