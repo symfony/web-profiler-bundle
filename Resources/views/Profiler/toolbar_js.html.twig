@@ -449,7 +449,7 @@
 
                     showToolbar: function(token) {
                         var sfwdt = this.getSfwdt(token);
-                        removeClass(sfwdt, 'sf-display-none');
+                        removeClass(sfwdt.parentNode, 'sf-display-none');
 
                         if (getPreference('toolbar/displayState') == 'none') {
                             document.getElementById('sfToolbarMainContent-' + token).style.display = 'none';
@@ -464,7 +464,7 @@
 
                     hideToolbar: function(token) {
                         var sfwdt = this.getSfwdt(token);
-                        addClass(sfwdt, 'sf-display-none');
+                        addClass(sfwdt.parentNode, 'sf-display-none');
                     },
 
                     initToolbar: function(token) {
@@ -628,7 +628,7 @@
                                         An error occurred while loading the web debug toolbar. <a href="{{ url("_profiler_home")|escape('js') }}' + newToken + '">Open the web profiler.</a>\
                                     </div>\
                                 ';
-                                    sfwdt.setAttribute('class', 'sf-toolbar sf-error-toolbar');
+                                    sfwdt.parentElement.setAttribute('class', 'sf-toolbar sf-error-toolbar');
                                 }
                             },
                             options
