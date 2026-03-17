@@ -247,7 +247,10 @@
                         }
                     }
 
-                    pendingRequests--;
+                    if (pendingRequests > 0) {
+                        pendingRequests--;
+                    }
+
                     var row = request.DOMNode;
                     /* Unpack the children from the row */
                     var profilerCell = row.children[1];
