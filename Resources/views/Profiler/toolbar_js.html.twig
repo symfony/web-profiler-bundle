@@ -501,20 +501,25 @@
 
                     showToolbar: function(token) {
                         var sfwdt = this.getSfwdt(token);
+                        var toggleButton = document.querySelector(`#sfToolbarToggleButton-${token}`);
 
                         if ('closed' === getPreference('toolbar/displayState')) {
                             addClass(sfwdt.parentNode, 'sf-toolbar-closed');
                             removeClass(sfwdt.parentNode, 'sf-toolbar-opened');
+                            if (toggleButton) { toggleButton.setAttribute('aria-expanded', 'false'); }
                         } else {
                             addClass(sfwdt.parentNode, 'sf-toolbar-opened');
                             removeClass(sfwdt.parentNode, 'sf-toolbar-closed');
+                            if (toggleButton) { toggleButton.setAttribute('aria-expanded', 'true'); }
                         }
                     },
 
                     hideToolbar: function(token) {
                         var sfwdt = this.getSfwdt(token);
+                        var toggleButton = document.querySelector(`#sfToolbarToggleButton-${token}`);
                         addClass(sfwdt.parentNode, 'sf-toolbar-closed');
                         removeClass(sfwdt.parentNode, 'sf-toolbar-opened');
+                        if (toggleButton) { toggleButton.setAttribute('aria-expanded', 'false'); }
                     },
 
                     initToolbar: function(token) {
