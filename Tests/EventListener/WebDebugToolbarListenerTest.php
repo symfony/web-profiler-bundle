@@ -411,7 +411,7 @@ class WebDebugToolbarListenerTest extends TestCase
 
         $request = new Request();
         $response = new EventStreamResponse(
-            fn () => yield new ServerEvent('some data'),
+            static fn () => yield new ServerEvent('some data'),
             headers: [
                 'X-Debug-Token' => 'aabbcc',
                 'X-Debug-Token-Link' => 'test://foobar',
@@ -448,7 +448,7 @@ class WebDebugToolbarListenerTest extends TestCase
 
         $request = new Request();
         $response = new EventStreamResponse(
-            function () {
+            static function () {
                 yield new ServerEvent('some data');
                 throw new \RuntimeException('Something went wrong');
             },
