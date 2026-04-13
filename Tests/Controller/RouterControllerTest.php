@@ -39,7 +39,7 @@ class RouterControllerTest extends WebTestCase
 
         $matchedRouteCell = $crawler
             ->filter('#router-logs .status-success td')
-            ->reduce(function (Crawler $td) use ($path): bool {
+            ->reduce(static function (Crawler $td) use ($path): bool {
                 return $td->text() === $path;
             });
 
