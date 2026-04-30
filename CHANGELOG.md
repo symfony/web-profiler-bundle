@@ -4,6 +4,7 @@ CHANGELOG
 8.1
 ---
 
+ * Forward the CSP nonce to `DumpDataCollector` instead of disabling CSP when `dump()` is used
  * Add console command value resolvers durations to Performances panel
  * Add error indicator to profiler list view for profiles with errors
  * Add cURL copy paste button in the Request/Response tab

@@ -91,11 +91,14 @@ class WebDebugToolbarListener implements EventSubscriberInterface
 
         $nonces = [];
         if ($this->cspHandler) {
-            if ($this->dumpDataCollector?->getDumpsCount() > 0) {
-                $this->cspHandler->disableCsp();
-            }
-
             $nonces = $this->cspHandler->updateResponseHeaders($request, $response);
+
+            if ($this->dumpDataCollector?->getDumpsCount() > 0) {
+                $this->dumpDataCollector->setNonce(
+                    $nonces['csp_script_nonce'] ?? null,
+                    $nonces['csp_style_nonce'] ?? null,
+                );
+            }
         }
 
         // do not capture redirects or modify XML HTTP Requests
