@@ -213,7 +213,8 @@ class WebDebugToolbarListener implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            KernelEvents::RESPONSE => ['onKernelResponse', -128],
+            // Run after ProfilerListener::onKernelResponse since we need the X-Debug-Token header
+            KernelEvents::RESPONSE => ['onKernelResponse', -2048],
         ];
     }
 }
