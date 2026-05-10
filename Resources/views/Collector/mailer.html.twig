@@ -278,24 +278,8 @@
                             {% for event in collector.events.events(transport) %}
                                 <tr class="mailer-email-summary-table-row {{ loop.first ? 'active' }}" data-target="#email-{{ loop.index }}">
                                     <td>{{ loop.index }}</td>
-                                    <td>
-                                        {% if event.message.subject is defined %}
-                                            {{ event.message.getSubject() ?? '(No subject)' }}
-                                        {% elseif event.message.headers.has('subject') %}
-                                            {{ event.message.headers.get('subject').bodyAsString()|default('(No subject)') }}
-                                        {% else %}
-                                            (No subject)
-                                        {% endif %}
-                                    </td>
-                                    <td>
-                                        {% if event.message.to is defined %}
-                                            {{ event.message.getTo()|map(addr => addr.toString())|join(', ')|default('(empty)') }}
-                                        {% elseif event.message.headers.has('to') %}
-                                            {{ event.message.headers.get('to').bodyAsString()|default('(empty)') }}
-                                        {% else %}
-                                            (empty)
-                                        {% endif %}
-                                    </td>
+                                    <td>{{ event.message.headers.get('subject').bodyAsString()|default('(No subject)') }}</td>
+                                    <td>{{ event.message.headers.get('to').bodyAsString()|default(event.envelope.recipients|map(addr => addr.toString())|join(', ')) }}</td>
                                     <td class="visually-hidden"><button class="mailer-email-summary-table-row-button" data-target="#email-{{ loop.index }}">View email details</button></td>
                                 </tr>
                             {% endfor %}
@@ -339,34 +323,16 @@
                     <div class="tab-content">
                         <div class="card-block">
                             <p class="mailer-message-subject">
-                                {% if message.subject is defined %}
-                                    {{ message.getSubject() ?? '(No subject)' }}
-                                {% elseif message.headers.has('subject') %}
-                                    {{ message.headers.get('subject').bodyAsString()|default('(No subject)') }}
-                                {% else %}
-                                    (No subject)
-                                {% endif %}
+                                {{ message.headers.get('subject').bodyAsString()|default('(No subject)') }}
                             </p>
                             <div class="mailer-message-headers">
                                 <p>
                                     <strong>From:</strong>
-                                    {% if message.from is defined %}
-                                        {{ message.getFrom()|map(addr => addr.toString())|join(', ')|default('(empty)') }}
-                                    {% elseif message.headers.has('from') %}
-                                        {{ message.headers.get('from').bodyAsString()|default('(empty)') }}
-                                    {% else %}
-                                        (empty)
-                                    {% endif %}
+                                    {{ message.headers.get('from').bodyAsString()|default('(empty)') }}
                                 </p>
                                 <p>
                                     <strong>To:</strong>
-                                    {% if message.to is defined %}
-                                        {{ message.getTo()|map(addr => addr.toString())|join(', ')|default('(empty)') }}
-                                    {% elseif message.headers.has('to') %}
-                                        {{ message.headers.get('to').bodyAsString()|default('(empty)') }}
-                                    {% else %}
-                                        (empty)
-                                    {% endif %}
+                                    {{ message.headers.get('to').bodyAsString()|default('(empty)') }}
                                 </p>
                                 {% for header in message.headers.all|filter(header => (header.name ?? '')|lower not in ['subject', 'from', 'to']) %}
                                     <p class="mailer-message-header-secondary">{{ header.toString }}</p>
