@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\HttpKernel\KernelEvents;
 use Twig\Environment;
 
 class WebDebugToolbarStreamedResponseListenerTest extends TestCase
@@ -73,6 +74,8 @@ class WebDebugToolbarStreamedResponseListenerTest extends TestCase
         return [
             [301],
             [302],
+            [307],
+            [308],
         ];
     }
 
@@ -100,6 +103,71 @@ class WebDebugToolbarStreamedResponseListenerTest extends TestCase
         $listener->onKernelResponse($event);
 
         $this->assertSame('<div>Some content</div>', $this->getContentFromStreamedResponse($response));
+    }
+
+    public function testToolbarIsNotInjectedOnXmlHttpRequests()
+    {
+        $response = new StreamedResponse($this->createCallbackFromContent('<html><head></head><body></body></html>'));
+        $response->headers->set('X-Debug-Token', 'xxxxxxxx');
+
+        $request = new Request();
+        $request->headers->set('X-Requested-With', 'XMLHttpRequest');
+
+        $event = new ResponseEvent($this->createStub(Kernel::class), $request, HttpKernelInterface::MAIN_REQUEST, $response);
+
+        $listener = new WebDebugToolbarListener($this->getTwigStub());
+        $listener->onKernelResponse($event);
+
+        $this->assertSame('<html><head></head><body></body></html>', $this->getContentFromStreamedResponse($response));
+    }
+
+    public function testToolbarIsNotInjectedOnSubRequest()
+    {
+        $response = new StreamedResponse($this->createCallbackFromContent('<html><head></head><body></body></html>'));
+        $response->headers->set('X-Debug-Token', 'xxxxxxxx');
+
+        $event = new ResponseEvent($this->createStub(Kernel::class), new Request(), HttpKernelInterface::SUB_REQUEST, $response);
+
+        $listener = new WebDebugToolbarListener($this->getTwigStub());
+        $listener->onKernelResponse($event);
+
+        $this->assertSame('<html><head></head><body></body></html>', $this->getContentFromStreamedResponse($response));
+    }
+
+    public function testToolbarIsNotInjectedOnContentDispositionAttachment()
+    {
+        $response = new StreamedResponse($this->createCallbackFromContent('<html><head></head><body></body></html>'));
+        $response->headers->set('X-Debug-Token', 'xxxxxxxx');
+        $response->headers->set('Content-Disposition', 'attachment; filename=test.html');
+
+        $event = new ResponseEvent($this->createStub(Kernel::class), new Request(), HttpKernelInterface::MAIN_REQUEST, $response);
+
+        $listener = new WebDebugToolbarListener($this->getTwigStub());
+        $listener->onKernelResponse($event);
+
+        $this->assertSame('<html><head></head><body></body></html>', $this->getContentFromStreamedResponse($response));
+    }
+
+    public function testToolbarIsNotInjectedOnNonHtmlContentType()
+    {
+        $response = new StreamedResponse($this->createCallbackFromContent('<html><head></head><body></body></html>'));
+        $response->headers->set('X-Debug-Token', 'xxxxxxxx');
+        $response->headers->set('Content-Type', 'text/xml');
+
+        $event = new ResponseEvent($this->createStub(Kernel::class), new Request(), HttpKernelInterface::MAIN_REQUEST, $response);
+
+        $listener = new WebDebugToolbarListener($this->getTwigStub());
+        $listener->onKernelResponse($event);
+
+        $this->assertSame('<html><head></head><body></body></html>', $this->getContentFromStreamedResponse($response));
+    }
+
+    public function testListenerPriorityIsLowerThanProfilerListener()
+    {
+        $events = WebDebugToolbarListener::getSubscribedEvents();
+
+        $this->assertArrayHasKey(KernelEvents::RESPONSE, $events);
+        $this->assertSame(['onKernelResponse', -2048], $events[KernelEvents::RESPONSE]);
     }
 
     private function getTwigStub(string $render = 'WDT'): Environment

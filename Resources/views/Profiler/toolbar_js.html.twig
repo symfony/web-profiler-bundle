@@ -41,14 +41,16 @@
 
                 var el = document.createElement('div');
                 if (!('addEventListener' in el)) {
-                    addEventListener = function (element, eventName, callback) {
+                    addEventListener = function (element, eventName, callback, options) {
                         element.attachEvent('on' + eventName, callback);
                     };
                 } else {
-                    addEventListener = function (element, eventName, callback) {
-                        element.addEventListener(eventName, callback, false);
+                    addEventListener = function (element, eventName, callback, options) {
+                        element.addEventListener(eventName, callback, options || false);
                     };
                 }
+
+                var toolbarLoadAborter = null;
 
                 var request = function(url, onSuccess, onError, payload, options, tries) {
                     url = new URL(url);
@@ -575,6 +577,13 @@
                                     return;
                                 }
 
+                                /* Drop listeners attached during the previous load so they don't stack on AJAX replacements */
+                                if (toolbarLoadAborter && typeof toolbarLoadAborter.abort === 'function') {
+                                    toolbarLoadAborter.abort();
+                                }
+                                toolbarLoadAborter = (typeof AbortController === 'function') ? new AbortController() : null;
+                                var toolbarLoadSignal = toolbarLoadAborter ? { signal: toolbarLoadAborter.signal } : false;
+
                                 /* Replace the ID, it has to match the new token */
                                 toolbarContent.parentElement.id = 'sfwdt' + newToken;
 
@@ -618,7 +627,7 @@
                                     }
                                 };
                                 for (i = 0; i < toolbarBlocks.length; ++i) {
-                                    addEventListener(toolbarBlocks[i], 'focusin', positionToolbarInfo);
+                                    addEventListener(toolbarBlocks[i], 'focusin', positionToolbarInfo, toolbarLoadSignal);
                                     toolbarBlocks[i].onmouseover = function () {
                                         /* Transfer focus away from any other toolbar block so that */
                                         /* :focus-within and :hover are never active simultaneously */
@@ -657,10 +666,10 @@
                                         }
                                     }
                                 }
-                                var hideButton = document.getElementById('sfToolbarHideButton-' + newToken);
-                                if (hideButton) {
-                                    hideButton.setAttribute('tabindex', triggers.length === 0 ? '0' : '-1');
-                                    triggers.push(hideButton);
+                                var toggleButton = document.getElementById('sfToolbarToggleButton-' + newToken);
+                                if (toggleButton) {
+                                    toggleButton.setAttribute('tabindex', triggers.length === 0 ? '0' : '-1');
+                                    triggers.push(toggleButton);
                                 }
 
                                 var isTriggerVisible = function(trigger) {
@@ -732,7 +741,7 @@
                                             if (handled) {
                                                 event.preventDefault();
                                             }
-                                        });
+                                        }, toolbarLoadSignal);
                                     })(i);
                                 }
 
@@ -753,7 +762,7 @@
                                                 }
                                                 event.preventDefault();
                                             }
-                                        });
+                                        }, toolbarLoadSignal);
                                     })(infoElements[i]);
                                 }
 

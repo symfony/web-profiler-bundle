@@ -168,10 +168,10 @@ class WebDebugToolbarListener implements EventSubscriberInterface
      */
     protected function injectToolbar(Response $response, Request $request, array $nonces): void
     {
-        $responseRef = \WeakReference::create($response);
-        $injectToolbar = function (string $buffer) use ($request, $responseRef, $nonces): string {
+        $debugToken = $response->headers->get('X-Debug-Token');
+        $injectToolbar = function (string $buffer) use ($request, $debugToken, $nonces): string {
             if (false !== $pos = strripos($buffer, '</body>')) {
-                $toolbar = "\n".str_replace("\n", '', $this->getToolbarHTML($request, $responseRef->get()->headers->get('X-Debug-Token'), $nonces))."\n";
+                $toolbar = "\n".str_replace("\n", '', $this->getToolbarHTML($request, $debugToken, $nonces))."\n";
                 $buffer = substr($buffer, 0, $pos).$toolbar.substr($buffer, $pos);
             }
 
