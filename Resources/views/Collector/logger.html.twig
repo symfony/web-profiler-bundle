@@ -462,7 +462,7 @@
                 <tbody>
                     {% for log in collector.processedLogs %}
                         {% set css_class = 'error' == log.type ? 'error'
-                            : (log.priorityName == 'WARNING' or 'deprecation' == log.type) ? 'warning'
+                            : (log.priorityName in ['WARNING', 'warning'] or 'deprecation' == log.type) ? 'warning'
                             : 'silenced' == log.type ? 'silenced'
                         %}
                         <tr class="log-status-{{ css_class }}" data-type="{{ log.type }}" data-priority="{{ log.priority }}" data-channel="{{ log.channel }}" style="{{ 'event' == log.channel or 'DEBUG' == log.priorityName ? 'display: none' }}">
@@ -471,9 +471,9 @@
                                     {{ log.timestamp|date('H:i:s.v') }}
                                 </time>
 
-                                {% if log.type in ['error', 'deprecation', 'silenced'] or 'WARNING' == log.priorityName %}
+                                {% if log.type in ['error', 'deprecation', 'silenced'] or log.priorityName in ['WARNING', 'warning'] %}
                                     <span class="log-type-badge badge badge-{{ css_class }}">
-                                        {% if 'error' == log.type or 'WARNING' == log.priorityName %}
+                                        {% if 'error' == log.type or log.priorityName in ['WARNING', 'warning'] %}
                                             {{ log.priorityName|lower }}
                                         {% else %}
                                             {{ log.type|lower }}
