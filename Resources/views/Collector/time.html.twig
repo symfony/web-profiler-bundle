@@ -122,7 +122,7 @@
 
     {% if not collector.isStopwatchInstalled() %}
         <div class="empty empty-panel">
-            <p>The Stopwatch component is not installed. If you want to see timing events, run: <code>composer require symfony/stopwatch</code>.</p>
+            <p>The Stopwatch component is not installed. If you want to see timing events, run: <code>composer require symfony/stopwatch --dev</code>.</p>
         </div>
     {% elseif collector.events is empty %}
         <div class="empty">
