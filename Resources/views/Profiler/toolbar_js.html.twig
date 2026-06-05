@@ -406,6 +406,7 @@
 
                     XMLHttpRequest.prototype.open = function(method, url, async, user, pass) {
                         var self = this;
+                        url = String(url);
 
                         /* prevent logging AJAX calls to static and inline files, like templates */
                         var path = url;
